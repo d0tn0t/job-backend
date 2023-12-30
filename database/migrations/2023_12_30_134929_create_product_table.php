@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description', 200);
             $table->double('price');
             $table->date('validity');
-            $table->uuid('image');
+            $table->string('image', 50);
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
