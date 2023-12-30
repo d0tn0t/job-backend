@@ -18,7 +18,7 @@ return new class extends Migration
             $table->double('price');
             $table->date('validity');
             $table->uuid('image');
-            $table->integer('category_id');
+            $table->unsignedBigInteger('category_id');
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('category');
