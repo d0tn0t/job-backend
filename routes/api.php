@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,14 @@ use App\Http\Controllers\AuthController;
 //     return $request->user();
 // });
 
-Route::post('register',[AuthController::class,'register']);
-Route::post('login', [AuthController::class,'login']);
-Route::post('refresh', ['middleware' => 'auth:api'], [AuthController::class,'refresh']);
-Route::post('logout', ['middleware' => 'auth:api'], [AuthController::class,'logout']);
+Route::post('register',[AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('refresh', ['middleware' => 'auth:api'], [AuthController::class, 'refresh']);
+Route::post('logout', ['middleware' => 'auth:api'], [AuthController::class, 'logout']);
+
+Route::prefix('category')->middleware('auth:api')->group(function () {
+    Route::post('/register', [CategoryController::class, 'register']);
+    Route::get('/', [CategoryController::class, 'getList']);
+    Route::put('/{id}', [CategoryController::class, 'update']);
+    Route::delete('/{id}', [CategoryController::class, 'remove']);
+});
