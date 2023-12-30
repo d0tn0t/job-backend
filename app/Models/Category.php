@@ -17,5 +17,9 @@ class Category extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'deleted_at'
+    ];
+
     protected $table = 'category';
 }
