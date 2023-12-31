@@ -39,6 +39,17 @@ class CategoryController extends Controller
     }
 
     /**
+     * Single category
+     */
+    public function getSingle($id) {
+        $category = Category::find((int)$id);
+ 
+         return response()->json([
+             'category' => $category
+         ]);
+     }    
+
+    /**
      * Update a category
      */
     public function update(Request $request, $id) {

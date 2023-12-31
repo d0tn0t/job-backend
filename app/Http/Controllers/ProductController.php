@@ -37,7 +37,7 @@ class ProductController extends Controller
 
         try {
             $request->file('image')->storeAs(
-                'images', $image_name
+                'public', $image_name
             );
         } catch (\Throwable $e) {
             return response()->json([
@@ -66,6 +66,17 @@ class ProductController extends Controller
     }
 
     /**
+     * single product
+     */
+    public function getSingle($id) {
+       $product = Product::with('category')->find((int)$id);
+
+        return response()->json([
+            'product' => $product
+        ]);
+    }
+
+    /**
      * Update a product
      */
     public function update(Request $request, $id) {
@@ -80,40 +91,48 @@ class ProductController extends Controller
 
         $product = Product::find((int)$id);
 
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->validity = $request->validity;
-        $product->category_id = $request->category_id;
-
-
-        if( $request->file('image') != null) {
-            Storage::delete('images/' . $product->image);
-
-            $stored_name = explode('.', $product->image)[0];
-            $image_name = $stored_name. '.' . $request->image->extension();
-
-            $product->image = $image_name;
-
-            try {
-                $request->file('image')->storeAs(
-                    'images', $image_name
-                );
-            } catch (\Throwable $e) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => $e,
-                ]);
-            }            
+        if($product != null) {
+     
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->validity = $request->validity;
+            $product->category_id = $request->category_id;
+    
+            if( $request->file('image') != null) {
+                Storage::delete('images/' . $product->image);
+    
+                $stored_name = explode('.', $product->image)[0];
+                $image_name = $stored_name. '.' . $request->image->extension();
+    
+                $product->image = $image_name;
+    
+                try {
+                    $request->file('image')->storeAs(
+                        'public', $image_name
+                    );
+                } catch (\Throwable $e) {
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => $e,
+                    ]);
+                }            
+            }
+    
+            $product->save();
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product updated successfully',
+                'product' => $product
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Product not found',
+            ], 400);
         }
-
-        $product->save();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Product updated successfully',
-            'product' => $product
-        ]);
+   
     }
     
     /**
@@ -124,7 +143,7 @@ class ProductController extends Controller
             $product = Product::find((int)$id);
 
             if($product != null) {
-                Storage::delete('images/' . $product->image);
+                Storage::delete('public/' . $product->image);
     
                 $product->delete();
         
