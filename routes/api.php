@@ -30,7 +30,7 @@ Route::prefix('category')->middleware('auth:api')->group(function () {
     Route::post('/register', [CategoryController::class, 'register']);
     Route::get('/', [CategoryController::class, 'getList']);
     Route::get('/{id}', [CategoryController::class, 'getSingle']);
-    Route::put('/{id}', [CategoryController::class, 'update']);
+    Route::patch('/{id}', [CategoryController::class, 'update']);
     Route::delete('/{id}', [CategoryController::class, 'remove']);
 });
 
@@ -38,6 +38,6 @@ Route::prefix('product')->middleware('auth:api')->group(function () {
     Route::post('/register', [ProductController::class, 'register']);
     Route::get('/', [ProductController::class, 'getList']);
     Route::get('/{id}', [ProductController::class, 'getSingle']);
-    Route::post('/{id}', [ProductController::class, 'update']);
+    Route::patch('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'remove']);
 });
