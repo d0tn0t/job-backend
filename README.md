@@ -22,3 +22,4 @@ Realizar as migrações do banco de dados:
 Depois, subimos o serviço PHP com o comando:
 `php -S localhost:8080 -t public`
 
+**Somente após subir todo o serviço de backend, deve proceder com o front**
