@@ -26,6 +26,10 @@ class Product extends Model
 
     protected $table = 'product';
 
+    protected $casts = [
+        "price" => "decimal:2"
+    ];
+
      /**
      * Get the post that owns the comment.
      */
